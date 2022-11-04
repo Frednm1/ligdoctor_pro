@@ -35,12 +35,13 @@ class _RegisterPageState extends State<RegisterPage> {
     var url = Uri.https(
         'sandbox-api.excellencemedical.com.br', '/api/v1/userRegister');
     var response = await http.post(url, body: {
+      "c_password": password,
       "name": name,
       "cpf": cpf,
       "email": email,
       "password": password,
-      "type": "customer",
-      "c_password": password
+      "type": "manager",
+      "status": "inactive",
     });
     var data = jsonDecode(response.body);
     print(response.body);

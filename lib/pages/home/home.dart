@@ -99,70 +99,28 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           runSpacing: displaySize.height * .02,
                           spacing: displaySize.width * .025,
-                          children: [
-                            const HomePageNavigationItem(
+                          children: const [
+                            HomePageNavigationItem(
                               category: 'Teleconsultas',
                               src: 'assets/images/phone.png',
                             ),
-                            const HomePageNavigationItem(
+                            HomePageNavigationItem(
                               category: 'Orientação em saúde',
                               src: 'assets/images/chat.png',
                             ),
-                            InkWell(
-                              borderRadius: BorderRadius.circular(20),
-                              onTap: () {},
-                              child: Container(
-                                width: displaySize.width * .27,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      height: displaySize.height * .1,
-                                      width: displaySize.width * .2,
-                                      padding: const EdgeInsets.all(8),
-                                      child: FittedBox(
-                                        child: FaIcon(
-                                          FontAwesomeIcons.usersViewfinder,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .secondary,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: displaySize.width * .25,
-                                      height: displaySize.height * .05,
-                                      child: Text(
-                                        'Pacientes',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 13,
-                                          height: 1,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
+                            HomePageNavigationItem(
+                              category: 'Pacientes',
+                              src: 'assets/images/medical-history.png',
                             ),
-                            const HomePageNavigationItem(
+                            HomePageNavigationItem(
                               category: 'Financeiro',
                               src: 'assets/images/salary.png',
                             ),
-                            const HomePageNavigationItem(
+                            HomePageNavigationItem(
                               category: 'Ajuda e suporte',
                               src: 'assets/images/customer-support.png',
                             ),
-                            const HomePageNavigationItem(
+                            HomePageNavigationItem(
                               category: 'Minha conta',
                               src: 'assets/images/gear.png',
                             ),

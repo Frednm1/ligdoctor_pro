@@ -27,9 +27,12 @@ class HomePageNavigationItem extends StatelessWidget {
           children: [
             Container(
               height: displaySize.height * .1,
-              width: displaySize.width * .2,
+              width: displaySize.width * .18,
               padding: const EdgeInsets.all(8),
-              child: Image.asset(src),
+              child: Image.asset(
+                src,
+                scale: 1.5,
+              ),
             ),
             SizedBox(
               width: displaySize.width * .25,

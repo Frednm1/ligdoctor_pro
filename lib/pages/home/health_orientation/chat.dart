@@ -2,10 +2,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ligdoctor_pro/models/user_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../../models/doctor_model.dart';
 import '../../../../utils/routes.dart';
 import '../../../components/message_bubble.dart';
@@ -13,9 +16,11 @@ import '../../splash_screen.dart';
 
 class Chat extends StatefulWidget {
   String channelId;
+  String patientId;
   Chat({
     Key? key,
     required this.channelId,
+    required this.patientId,
   }) : super(key: key);
   @override
   State<Chat> createState() => _ChatState();
@@ -27,7 +32,6 @@ _returnHome(BuildContext context) {
 
 class _ChatState extends State<Chat> {
   late String messageText;
-  late String channelId;
 
   List<NewChatClassModel> list = [];
   final _controller = TextEditingController();
@@ -42,11 +46,11 @@ class _ChatState extends State<Chat> {
           toolbarHeight: 70,
           title: SizedBox(
             width: MediaQuery.of(context).size.width * .5,
-            child: FutureBuilder(
-              future: doctorAvatar(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
+            child: FutureBuilder<Widget>(
+              future: patientAvatar(),
+              builder: (BuildContext context, snapshot) {
                 if (snapshot.hasData) {
-                  return snapshot.data;
+                  return snapshot.data!;
                 } else {
                   return Container();
                 }
@@ -72,169 +76,112 @@ class _ChatState extends State<Chat> {
             child: Column(
               children: [
                 Expanded(
-                  child: FutureBuilder<String>(
-                      future: startChat(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          String canal = snapshot.data!;
-                          FirebaseDatabase.instance
-                              .ref('channels/${snapshot.data}')
-                              .onValue
-                              .listen((event) {
-                            if (event.snapshot
-                                    .child('status')
-                                    .value
-                                    .toString() ==
-                                'inactive') {
-                              setState(() {
-                                isActive = false;
-                              });
-                            }
-                          });
+                  child: StreamBuilder<DatabaseEvent>(
+                    stream: FirebaseDatabase.instance.ref('messages').onValue,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var data = snapshot.data!.snapshot;
+                        list.clear();
+                        var msgs = data.children.where((element) => element
+                            .child('channelId')
+                            .value
+                            .toString()
+                            .contains(widget.channelId));
 
-                          return StreamBuilder<DatabaseEvent>(
-                            stream: FirebaseDatabase.instance
-                                .ref('messages')
-                                .onValue,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                var data = snapshot.data!.snapshot;
-                                list.clear();
-                                var msgs = data.children.where((element) =>
-                                    element
-                                        .child('channelId')
-                                        .value
-                                        .toString()
-                                        .contains(canal));
-
-                                msgs.forEach((element) {
-                                  list.add(
-                                    NewChatClassModel.fromJson(
-                                      jsonDecode(
-                                        jsonEncode(element.value),
-                                      ),
-                                    ),
-                                  );
-                                });
-                                list = list.reversed.toList();
-                                return ListView.builder(
-                                    itemCount: list.length,
-                                    reverse: true,
-                                    itemBuilder: (context, index) {
-                                      return Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: MessageBubble(
-                                          message: list[index].text!,
-                                          belongsToCurrentUser:
-                                              list[index].belongsToPatient!,
-                                        ),
-                                      );
-                                    });
-                              } else {
-                                return const SplashScreen();
-                              }
-                            },
+                        msgs.forEach((element) {
+                          list.add(
+                            NewChatClassModel.fromJson(
+                              jsonDecode(
+                                jsonEncode(element.value),
+                              ),
+                            ),
                           );
-                        } else {
-                          return const SplashScreen();
-                        }
-                      }),
+                        });
+                        list = list.reversed.toList();
+                        return ListView.builder(
+                            itemCount: list.length,
+                            reverse: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: MessageBubble(
+                                  message: list[index].text!,
+                                  belongsToCurrentUser:
+                                      list[index].belongsToPatient!,
+                                ),
+                              );
+                            });
+                      } else {
+                        return const SplashScreen();
+                      }
+                    },
+                  ),
                 ),
-                isActive
-                    ? SizedBox(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Row(
-                            children: [
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              Expanded(
-                                child: TextField(
-                                  controller: _controller,
-                                  autocorrect: true,
-                                  selectionHeightStyle: BoxHeightStyle.tight,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Theme.of(context)
-                                        .colorScheme
-                                        .primaryContainer,
-                                    hintText: "Digite sua mensagem",
-                                    contentPadding:
-                                        const EdgeInsets.only(top: 5, left: 15),
-                                    hintStyle: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade600,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 4,
-                              ),
-                              SizedBox(
-                                height: 45,
-                                width: 45,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        messageText = _controller.text;
-                                      });
-                                      if (messageText.trim().isNotEmpty) {
-                                        createMessage(messageText, channelId);
-                                        clearInput();
-                                      }
-                                    },
-                                    icon: const Icon(Icons.send),
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ))
-                    : SizedBox(
-                        height: 80,
-                        child: Column(
-                          children: [
-                            const Text('A consulta foi finalizada'),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.primary,
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width * .76,
-                                    40),
-                              ),
-                              onPressed: () {
-                                clearData();
-                                _returnHome(context);
-                              },
-                              child: const Text(
-                                'Encerrar',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            )
-                          ],
+                SizedBox(
+                  height: 60,
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 4,
                         ),
-                      ),
+                        Expanded(
+                          child: TextField(
+                            controller: _controller,
+                            autocorrect: true,
+                            selectionHeightStyle: BoxHeightStyle.tight,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                              hintText: "Digite sua mensagem",
+                              contentPadding:
+                                  const EdgeInsets.only(top: 5, left: 15),
+                              hintStyle: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 4,
+                        ),
+                        SizedBox(
+                          height: 45,
+                          width: 45,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100),
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  messageText = _controller.text;
+                                });
+                                if (messageText.trim().isNotEmpty) {
+                                  createMessage(messageText, widget.channelId);
+                                  clearInput();
+                                }
+                              },
+                              icon: const Icon(Icons.send),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 8),
               ],
             ),
@@ -244,39 +191,35 @@ class _ChatState extends State<Chat> {
     );
   }
 
-  clearData() async {
+  Future<Widget> patientAvatar() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    DatabaseReference ref = FirebaseDatabase.instance.ref();
-    var messages = await ref.child('messages').get();
-    var messagesOfCHannel = messages.children.where((element) {
-      return element.child('channelId').value.toString().contains(channelId);
+    var url =
+        Uri.https('sandbox-api.excellencemedical.com.br', '/api/v1/getUser');
+    var response = await http.post(url, headers: {
+      "Authorization": "Bearer ${prefs.getString('token')!}",
     });
-    messagesOfCHannel.forEach((element) {
-      element.ref.remove();
-    });
-    var channel = ref.child('channels/$channelId');
-    if (prefs.getBool("selfConsult") == true) {
-      await prefs.remove("selfConsult");
-      await prefs.remove("channelId");
-      await channel.remove();
-    } else {
-      await prefs.remove("channelId");
-      await channel.remove();
-    }
-  }
-
-  Future<Widget> doctorAvatar() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = UserDataModel.fromJson(jsonDecode(response.body));
     return Row(
       children: [
-        CircleAvatar(child: Image.network(prefs.getString("managerAvatar")!)),
+        SizedBox(
+          width: 50,
+          height: 50,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: Image.network(
+              data.user?.avatar ??
+                  'https://d1bvpoagx8hqbg.cloudfront.net/259/eb0a9acaa2c314784949cc8772ca01b3.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
         const SizedBox(
-          width: 10,
+          width: 20,
         ),
         Expanded(
           flex: 5,
           child: Text(
-            prefs.getString("managerName")!,
+            data.user!.name!,
             style: TextStyle(
               fontSize: 16,
               color: Theme.of(context).colorScheme.primary,
@@ -298,63 +241,32 @@ class _ChatState extends State<Chat> {
   }
 
   createMessage(String msg, String channelId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     DatabaseReference ref = FirebaseDatabase.instance.ref('/messages');
     final newPost = ref.push().key;
-    ref.child('/$newPost').set({
-      "_id": DateTime.now().microsecondsSinceEpoch,
-      "belongsToPatient": true,
-      "channelId": prefs.getString("channelId"),
-      "createdAt": DateTime.now().microsecondsSinceEpoch,
-      "text": msg,
-      "user": {
-        "_id": prefs.getInt('id'),
-        "name": prefs.getString('name'),
-        "avatar": prefs.getString('iconAvatar')
-      }
-    });
+    ref.child('/$newPost').set(
+      {
+        "_id": DateTime.now().microsecondsSinceEpoch,
+        "belongsToPatient": true,
+        "channelId": widget.channelId,
+        "createdAt": DateTime.now().microsecondsSinceEpoch,
+        "text": msg,
+      },
+    );
     updateChannel();
   }
 
   updateChannel() async {
     DatabaseReference channelRef = FirebaseDatabase.instance.ref();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String channelId = prefs.getString("channelId")!;
-    var messages =
-        await channelRef.child("/channels/$channelId/newMessage").get();
+    var messages = await channelRef
+        .child("channels/${widget.channelId}/newMessageDoctor")
+        .get();
     var value = jsonDecode(messages.value!.toString());
     int messagesValue = value as int;
     messagesValue = messagesValue + 1;
     await channelRef
-        .child("/channels/$channelId/newMessage")
+        .child("channels/${widget.channelId}/newMessageDoctor")
         .set(messagesValue.toString());
-    await channelRef.child("/channels/$channelId/newMessageDoctor").set(0);
-  }
-
-  Future<bool> searchChannel(int id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    DatabaseReference channelRef = FirebaseDatabase.instance.ref('channels');
-    var channelData = await channelRef.get();
-    var channel = channelData.children.where((element) =>
-        element.child('userId').value == prefs.getInt('id').toString());
-    if (channel.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  startChat() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString("channelId") != null) {
-      channelId = prefs.getString("channelId")!;
-      DatabaseReference ref =
-          FirebaseDatabase.instance.ref('/channels/$channelId');
-      var channelRef = await ref.get();
-      if (channelRef.exists) {
-        return channelId;
-      }
-    }
+    await channelRef.child("channels/${widget.channelId}/newMessage").set(0);
   }
 }
 

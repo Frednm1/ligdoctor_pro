@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
           color: Color.fromRGBO(31, 59, 98, 1),
         ),
       ),
-      initialRoute: Routes.start,
+      initialRoute: Routes.loading,
       routes: Routes.list,
     );
   }
