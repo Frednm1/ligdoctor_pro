@@ -11,8 +11,12 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
-  _loginNavigator(BuildContext context) {
+  _login(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(Routes.login);
+  }
+
+  _register(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(Routes.register);
   }
 
   @override
@@ -76,7 +80,7 @@ class _StartPageState extends State<StartPage> {
                               height: displaySize.height * 0.02,
                             ),
                             InkWell(
-                              onTap: () => _loginNavigator(context),
+                              onTap: () => _login(context),
                               child: LoginButton(
                                 Theme.of(context).colorScheme.primary,
                                 'ENTRAR NA MINHA CONTA',
@@ -86,7 +90,7 @@ class _StartPageState extends State<StartPage> {
                               height: displaySize.height * 0.01,
                             ),
                             InkWell(
-                              onTap: () => _loginNavigator(context),
+                              onTap: () => _register(context),
                               child: LoginButton(
                                 Theme.of(context).colorScheme.tertiary,
                                 'CRIAR CONTA',

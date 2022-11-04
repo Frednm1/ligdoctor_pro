@@ -35,21 +35,19 @@ class _LoginPageState extends State<LoginPage> {
         "email": email,
         "password": pass,
       });
-      print(response.body);
       var data = jsonDecode(response.body);
       if (data['success'] == true) {
         await prefs.remove("token");
         await prefs.setString("token", data['token']);
-        Autentication().callCheck();
         return true;
       }
     } finally {}
     return false;
   }
 
-  // _goToHome(BuildContext context) {
-  //   Navigator.of(context).pushReplacementNamed(Routes.home);
-  // }
+  _home(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(Routes.home);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,8 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                                             _passwordController.text)
                                         .then((value) {
                                       if (value) {
-                                        // _goToHome(context);
-                                        print('logado');
+                                        _home(context);
                                       } else {
                                         showDialog(
                                           context: context,

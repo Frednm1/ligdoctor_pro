@@ -47,6 +47,7 @@ dependencies:
   brasil_fields: ^1.6.0
   firebase_messaging: ^14.0.4
   shared_preferences: ^2.0.15
+  font_awesome_flutter: ^10.2.1
 
 dev_dependencies:
   flutter_test:
