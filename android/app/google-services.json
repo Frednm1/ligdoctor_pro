@@ -1,0 +1,109 @@
+{
+  "project_info": {
+    "project_number": "1030800366302",
+    "firebase_url": "https://ligdoctor-app.firebaseio.com",
+    "project_id": "ligdoctor-app",
+    "storage_bucket": "ligdoctor-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030800366302:android:a0cf127a7acd3b0feac04f",
+        "android_client_info": {
+          "package_name": "br.com.ligdoctor.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030800366302-314jk3s3u3ce6ptkc5cfl3ne32detsg8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.ligdoctor.app",
+            "certificate_hash": "6e8c6192f7ed2d1b2d79af285cafe6c0c8d12e97"
+          }
+        },
+        {
+          "client_id": "1030800366302-lquebaqfk50c4861is0igsc2i542vujo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.ligdoctor.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1030800366302-0lo5vp3gg2d4gcp1v73j4ojv8qlh8b3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPXxczqXRo_7ZbmVFOFAk2N1l-j2YWOUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030800366302-0lo5vp3gg2d4gcp1v73j4ojv8qlh8b3p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030800366302-geldev27vekh7s9rj8qti8703chr9tpb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.ligdoctor24horas",
+                "app_store_id": "1530859860"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030800366302:android:21a9e330a52d1df8eac04f",
+        "android_client_info": {
+          "package_name": "br.com.ligdoctor.pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030800366302-cs9uf0oms9em6ijdna11j3v9ib55iop6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.ligdoctor.pro",
+            "certificate_hash": "d178af29509fc0e68b320477feb19704a076898e"
+          }
+        },
+        {
+          "client_id": "1030800366302-0lo5vp3gg2d4gcp1v73j4ojv8qlh8b3p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPXxczqXRo_7ZbmVFOFAk2N1l-j2YWOUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030800366302-0lo5vp3gg2d4gcp1v73j4ojv8qlh8b3p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1030800366302-geldev27vekh7s9rj8qti8703chr9tpb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.ligdoctor24horas",
+                "app_store_id": "1530859860"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
