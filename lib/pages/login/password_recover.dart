@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../components/curved_border.dart';
+import '../../../components/curved_border.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
-import '../../utils/routes.dart';
+import '../../../utils/routes.dart';
 import '../splash_screen.dart';
 
 class PasswordRecover extends StatefulWidget {

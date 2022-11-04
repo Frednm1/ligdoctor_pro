@@ -3,13 +3,13 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ligdoctor_pro/login/password_recover.dart';
+import 'package:ligdoctor_pro/pages/login/password_recover.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../components/curved_border.dart';
+import '../../../components/curved_border.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io' show Platform;
-import '../../utils/routes.dart';
-import '../services/auth_service.dart';
+import '../../../utils/routes.dart';
+import '../../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

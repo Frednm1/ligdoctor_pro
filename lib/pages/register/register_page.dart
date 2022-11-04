@@ -4,11 +4,11 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import '../../utils/routes.dart';
+import '../../../utils/routes.dart';
 import 'dart:io' show Platform;
 import "package:email_validator/email_validator.dart";
 
-import '../components/bg_default_theme.dart';
+import '../../components/bg_default_theme.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);

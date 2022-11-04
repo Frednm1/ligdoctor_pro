@@ -16,7 +16,7 @@ class HomePageNavigationItem extends StatelessWidget {
         MediaQuery.of(context).size.width, MediaQuery.of(context).size.height);
     return InkWell(
       borderRadius: BorderRadius.circular(20),
-      onTap: () {},
+      onTap: () => _selectedCategory(context, category),
       child: Container(
         width: displaySize.width * .27,
         decoration: BoxDecoration(
@@ -52,32 +52,32 @@ class HomePageNavigationItem extends StatelessWidget {
   }
 }
 
-// _selectedCategory(BuildContext context, String category) {
-//   final String route;
-//   switch (category) {
-//     case 'Teleconsulta':
-//       {
-//         route = Routes.loadTeleconsultation;
-//       }
-//       break;
-    
-//     case 'Orientação em saúde':
-//       {
-//         route = Routes.loadingHealthOrientation;
-//       }
-//       break;
+_selectedCategory(BuildContext context, String category) {
+  final String route;
+  switch (category) {
+    case 'Teleconsulta':
+      {
+        route = Routes.teleconsults;
+      }
+      break;
 
-//     case 'Suporte':
-//       {
-//         route = Routes.support;
-//       }
-//       break;
+    case 'Orientação em saúde':
+      {
+        route = Routes.healthOrientation;
+      }
+      break;
 
-//     default:
-//       {
-//         route = '/';
-//       }
-//       break;
-//   }
-//   Navigator.of(context).pushNamed(route);
-// }
+    case 'Suporte':
+      {
+        route = Routes.support;
+      }
+      break;
+
+    default:
+      {
+        route = '/';
+      }
+      break;
+  }
+  Navigator.of(context).pushNamed(route);
+}

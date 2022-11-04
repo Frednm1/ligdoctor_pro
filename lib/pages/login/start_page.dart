@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../components/curved_border.dart';
-import '../../components/login_button.dart';
-import '../../utils/routes.dart';
+import '../../../components/curved_border.dart';
+import '../../../components/login_button.dart';
+import '../../../utils/routes.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);

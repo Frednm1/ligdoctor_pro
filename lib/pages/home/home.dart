@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ligdoctor_pro/components/home_page_navigation_item.dart';
 import 'package:ligdoctor_pro/services/auth_service.dart';
-import 'package:ligdoctor_pro/splash_screen.dart';
+import 'package:ligdoctor_pro/pages/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/banners_model.dart';
+import '../../models/banners_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -159,7 +159,7 @@ class _HomeState extends State<Home> {
                               src: 'assets/images/salary.png',
                             ),
                             const HomePageNavigationItem(
-                              category: 'Financeiro',
+                              category: 'Ajuda e suporte',
                               src: 'assets/images/customer-support.png',
                             ),
                             const HomePageNavigationItem(
