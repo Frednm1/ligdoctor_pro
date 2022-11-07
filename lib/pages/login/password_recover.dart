@@ -32,7 +32,7 @@ class _PasswordRecoverState extends State<PasswordRecover> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Você receberá um email'),
+          title: const Text('Você receberá um email'),
           content: Text(
               'Você receberá um e-mail em ${data['email']} para recuperar sua senha.'),
           actions: [

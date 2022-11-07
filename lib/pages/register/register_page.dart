@@ -44,7 +44,6 @@ class _RegisterPageState extends State<RegisterPage> {
       "status": "inactive",
     });
     var data = jsonDecode(response.body);
-    print(response.body);
     if (data['error'] == true) {
       showDialog(
         context: context,

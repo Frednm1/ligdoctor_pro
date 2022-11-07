@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -116,13 +115,13 @@ class Autentication {
     if (userExist.isNotEmpty) {
       await userExist.first.ref.remove();
 
-      final newPostKey = ref.child('users').push().set({
+      ref.child('users').push().set({
         "_id": prefs.getInt('id').toString(),
         "avatar": prefs.getString('iconAvatar'),
         "name": prefs.getString('name'),
       });
     } else {
-      final newPostKey = ref.child('users').push().set({
+      ref.child('users').push().set({
         "_id": prefs.getInt('id').toString(),
         "avatar": prefs.getString('iconAvatar'),
         "name": prefs.getString('name'),

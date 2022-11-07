@@ -8,12 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ligdoctor_pro/models/user_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../../models/doctor_model.dart';
 import '../../../../utils/routes.dart';
 import '../../../components/message_bubble.dart';
 import '../../splash_screen.dart';
 
+// ignore: must_be_immutable
 class Chat extends StatefulWidget {
   String channelId;
   String patientId;
@@ -88,7 +87,7 @@ class _ChatState extends State<Chat> {
                             .toString()
                             .contains(widget.channelId));
 
-                        msgs.forEach((element) {
+                        for (var element in msgs) {
                           list.add(
                             NewChatClassModel.fromJson(
                               jsonDecode(
@@ -96,7 +95,7 @@ class _ChatState extends State<Chat> {
                               ),
                             ),
                           );
-                        });
+                        }
                         list = list.reversed.toList();
                         return ListView.builder(
                             itemCount: list.length,
@@ -220,9 +219,9 @@ class _ChatState extends State<Chat> {
           flex: 5,
           child: Text(
             data.user!.name!,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16,
-              color: Theme.of(context).colorScheme.primary,
+              color: Color.fromRGBO(31, 59, 98, 1),
               fontWeight: FontWeight.bold,
             ),
             softWrap: false,

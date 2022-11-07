@@ -70,15 +70,20 @@ _selectedCategory(BuildContext context, String category) {
       }
       break;
 
-    case 'Suporte':
+    case 'Ajuda e suporte':
       {
         route = Routes.support;
+      }
+      break;
+    case 'Financeiro':
+      {
+        route = Routes.financial;
       }
       break;
 
     default:
       {
-        route = '/';
+        route = Routes.home;
       }
       break;
   }

@@ -1,9 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:ligdoctor_pro/pages/home/health_orientation/chat.dart';
-import 'package:ligdoctor_pro/pages/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HealthOrientation extends StatefulWidget {

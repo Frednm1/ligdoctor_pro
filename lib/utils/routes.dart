@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:ligdoctor_pro/pages/home/financial/financial.dart';
 import 'package:ligdoctor_pro/pages/home/health_orientation/health_orientation.dart';
 import 'package:ligdoctor_pro/pages/home/support/support.dart';
 import 'package:ligdoctor_pro/pages/home/teleconsults/teleconsults.dart';
@@ -21,6 +22,7 @@ class Routes {
     '/register': (context) => const RegisterPage(),
     '/login': (context) => const LoginPage(),
     '/home': (context) => const Home(),
+    '/financial': (context) => const Financial(),
   };
   static String login = '/login';
   static String register = '/register';
@@ -28,6 +30,7 @@ class Routes {
   static String healthOrientation = '/health-orientation';
   static String passwordRecover = '/password-recover';
   static String start = '/start';
+  static String financial = '/financial';
   static String loading = '/loading';
   static String support = '/support';
   static String home = '/home';
