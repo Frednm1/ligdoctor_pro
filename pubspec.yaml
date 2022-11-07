@@ -49,6 +49,8 @@ dependencies:
   shared_preferences: ^2.0.15
   font_awesome_flutter: ^10.2.1
   social_share: ^2.2.1
+  image_picker: ^0.8.6
+  search_cep: ^4.0.1
 
 dev_dependencies:
   flutter_test:

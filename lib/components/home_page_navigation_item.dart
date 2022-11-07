@@ -75,6 +75,11 @@ _selectedCategory(BuildContext context, String category) {
         route = Routes.support;
       }
       break;
+    case 'Minha conta':
+      {
+        route = Routes.userPage;
+      }
+      break;
     case 'Financeiro':
       {
         route = Routes.financial;
