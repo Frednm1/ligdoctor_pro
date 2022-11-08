@@ -245,7 +245,7 @@ class _ChatState extends State<Chat> {
     ref.child('/$newPost').set(
       {
         "_id": DateTime.now().microsecondsSinceEpoch,
-        "belongsToPatient": true,
+        "belongsToPatient": false,
         "channelId": widget.channelId,
         "createdAt": DateTime.now().microsecondsSinceEpoch,
         "text": msg,

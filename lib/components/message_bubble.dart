@@ -14,24 +14,24 @@ class MessageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: belongsToCurrentUser
-          ? MainAxisAlignment.end
-          : MainAxisAlignment.start,
+          ? MainAxisAlignment.start
+          : MainAxisAlignment.end ,
       children: [
         Container(
           width: MediaQuery.of(context).size.width * .6,
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: belongsToCurrentUser
-                ? Theme.of(context).colorScheme.secondary
-                : Colors.grey[300],
+                ? Colors.grey[300] 
+                : Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
             message,
             style: TextStyle(
               color: belongsToCurrentUser
-                  ? Colors.white
-                  : Theme.of(context).colorScheme.primary,
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.white ,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
