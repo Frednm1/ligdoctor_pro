@@ -5,6 +5,7 @@ import 'package:ligdoctor_pro/pages/home/my_account/change_password.dart';
 import 'package:ligdoctor_pro/pages/home/my_account/edit_location.dart';
 import 'package:ligdoctor_pro/pages/home/my_account/user_data.dart';
 import 'package:ligdoctor_pro/pages/home/my_account/user_page.dart';
+import 'package:ligdoctor_pro/pages/home/patients/patients.dart';
 import 'package:ligdoctor_pro/pages/home/support/support.dart';
 import 'package:ligdoctor_pro/pages/home/teleconsults/teleconsults.dart';
 import 'package:ligdoctor_pro/pages/login/password_recover.dart';
@@ -35,6 +36,7 @@ class Routes {
     '/support': (context) => const Support(),
     '/home': (context) => const Home(),
     '/financial': (context) => const Financial(),
+    '/patients': (context) => const Patients(),
 
     //utils
     '/loading': (context) => const Loading(),
@@ -49,6 +51,7 @@ class Routes {
   static String healthOrientation = '/health-orientation';
   static String passwordRecover = '/password-recover';
   static String start = '/start';
+  static String patients = '/patients';
   static String financial = '/financial';
   static String loading = '/loading';
   static String support = '/support';

@@ -51,6 +51,7 @@ dependencies:
   social_share: ^2.2.1
   image_picker: ^0.8.6
   search_cep: ^4.0.1
+  age_calculator: ^1.0.0
 
 dev_dependencies:
   flutter_test:

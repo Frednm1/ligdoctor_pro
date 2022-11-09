@@ -92,6 +92,11 @@ _selectedCategory(BuildContext context, String category) {
         route = Routes.teleconsults;
       }
       break;
+    case 'Pacientes':
+      {
+        route = Routes.patients;
+      }
+      break;
 
     default:
       {

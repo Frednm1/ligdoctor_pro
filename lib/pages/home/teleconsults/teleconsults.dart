@@ -28,49 +28,51 @@ class _TeleconsultsState extends State<Teleconsults> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Image.asset(
-            'assets/images/Logo-escura.png',
+    return SafeArea(
+      child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Image.asset(
+              'assets/images/Logo-escura.png',
+            ),
+            toolbarHeight: 70,
+            leadingWidth: 80,
+            backgroundColor: Colors.white,
           ),
-          toolbarHeight: 70,
-          leadingWidth: 80,
-          backgroundColor: Colors.white,
-        ),
-        body: FutureBuilder<Widget>(
-          future: loadList(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return SafeArea(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      'Teleconsultas',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+          body: FutureBuilder<Widget>(
+            future: loadList(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SafeArea(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
-                    Expanded(
-                      child: snapshot.data!,
-                    )
-                  ],
-                ),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ));
+                      Text(
+                        'Teleconsultas',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Expanded(
+                        child: snapshot.data!,
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          )),
+    );
   }
 
   Future<Widget> loadList() async {
