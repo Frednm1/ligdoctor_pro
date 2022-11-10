@@ -30,17 +30,24 @@ class _PatientChartState extends State<PatientChart> {
         leadingWidth: 80,
         backgroundColor: Colors.white,
       ),
-      body: FutureBuilder<Widget>(
-        future: loadChart(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return snapshot.data!;
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+      body: SingleChildScrollView(
+        reverse: true,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height - 70,
+          width: MediaQuery.of(context).size.width,
+          child: FutureBuilder<Widget>(
+            future: loadChart(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return snapshot.data!;
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ),
       ),
     );
   }
