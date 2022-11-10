@@ -38,8 +38,8 @@ class Autentication {
           UserDataModel.fromJson(jsonDecode(responseGetUser.body));
       if (dataGetUser.success == true) {
         await prefs.setBool("firstAccess", false);
-
-        _reloadInfo(dataGetUser);
+        await _reloadInfo(dataGetUser);
+        await _updatePlayerId(token);
         return true;
       } else {
         return false;
@@ -47,6 +47,17 @@ class Autentication {
     } catch (e) {
       return false;
     }
+  }
+
+  _updatePlayerId(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var url = Uri.https('sandbox-api.excellencemedical.com.br',
+        '/api/v1/user/update/${prefs.getInt('id')}');
+    await http.post(
+      url,
+      headers: {"Authorization": "Bearer $token"},
+      body: {"player_id": token},
+    );
   }
 
   _reloadInfo(UserDataModel data) async {
