@@ -2,7 +2,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -51,11 +50,45 @@ class _ChatState extends State<Chat> {
                 if (snapshot.hasData) {
                   return snapshot.data!;
                 } else {
+                  print(snapshot.error);
                   return Container();
                 }
               },
             ),
           ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Atenção'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Voltar'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                _closeChannel();
+                                Navigator.pop(context);
+                              },
+                              child: const Text('Sim'),
+                            ),
+                          ],
+                          content: const Text(
+                              'Tem certeza que deseja encerrar o Chat?'),
+                        );
+                      });
+                },
+                icon: const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ))
+          ],
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () => _returnHome(context),
@@ -190,14 +223,23 @@ class _ChatState extends State<Chat> {
     );
   }
 
+  _closeChannel() async {
+    DatabaseReference ref =
+        FirebaseDatabase.instance.ref('channels/${widget.channelId}');
+    await ref.child('status').set("inactive");
+  }
+
   Future<Widget> patientAvatar() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var url =
-        Uri.https('sandbox-api.excellencemedical.com.br', '/api/v1/getUser');
-    var response = await http.post(url, headers: {
-      "Authorization": "Bearer ${prefs.getString('token')!}",
-    });
-    var data = UserDataModel.fromJson(jsonDecode(response.body));
+    DatabaseReference ref = FirebaseDatabase.instance.ref('users');
+    var users = await ref.get();
+    var user = users.children.where(
+        (element) => element.child('_id').value.toString() == widget.patientId);
+    String avatar =
+        'https://d1bvpoagx8hqbg.cloudfront.net/259/eb0a9acaa2c314784949cc8772ca01b3.jpg';
+    if (user.first.child('avatar').exists) {
+      avatar = user.first.child('avatar').value.toString();
+    }
+
     return Row(
       children: [
         SizedBox(
@@ -206,8 +248,7 @@ class _ChatState extends State<Chat> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(100),
             child: Image.network(
-              data.user?.avatar ??
-                  'https://d1bvpoagx8hqbg.cloudfront.net/259/eb0a9acaa2c314784949cc8772ca01b3.jpg',
+              avatar,
               fit: BoxFit.cover,
             ),
           ),
@@ -218,7 +259,7 @@ class _ChatState extends State<Chat> {
         Expanded(
           flex: 5,
           child: Text(
-            data.user!.name!,
+            user.first.child('name').value.toString(),
             style: const TextStyle(
               fontSize: 16,
               color: Color.fromRGBO(31, 59, 98, 1),

@@ -98,7 +98,9 @@ class _HealthOrientationState extends State<HealthOrientation> {
     var channels = await ref.get();
     var myChannels = channels.children.where(
         (element) => element.child('doctorId').value == prefs.getInt('id'));
-    int length = myChannels.length;
+    var myActiveChannels = myChannels
+        .where((element) => element.child('status').value == 'active');
+    int length = myActiveChannels.length;
     if (length == 0) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -128,7 +130,9 @@ class _HealthOrientationState extends State<HealthOrientation> {
           itemBuilder: (context, i) {
             DateTime time = DateTime.fromMicrosecondsSinceEpoch(int.parse(
                 myChannels.elementAt(i).child('createdAt').value.toString()));
-
+            String dataString = time.minute < 10
+                ? '${time.day}/${time.month}/${time.year} às ${time.hour}:0${time.minute}'
+                : '${time.day}/${time.month}/${time.year} às ${time.hour}:${time.minute}';
             return InkWell(
               onTap: () => _chat(
                   context,
@@ -168,7 +172,7 @@ class _HealthOrientationState extends State<HealthOrientation> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * .5,
                           child: Text(
-                            '${time.day}/${time.month}/${time.year} às ${time.hour}:${time.minute}',
+                            dataString,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: const TextStyle(
